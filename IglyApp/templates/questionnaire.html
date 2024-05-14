@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questionnaire</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        var currentQuestion = 1;
+        $(document).ready(function(){
+            displayQuestion(currentQuestion);
+        });
+
+        function displayQuestion(questionNumber) {
+            var question = document.getElementById('question');
+            question.innerHTML = "{{ questions[questionNumber-1] }}";
+
+            var form = document.getElementById('form');
+            form.innerHTML = `<label for="reponse">Réponse :</label>
+                              <select name="reponse_${questionNumber}" id="reponse_${questionNumber}">
+                                <option value="0">0</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                              </select>`;
+
+            var btn = document.getElementById('btn');
+            if (questionNumber < 54) {
+                btn.innerHTML = `<button onclick="nextQuestion()">Suivant</button>`;
+            } else {
+                btn.innerHTML = `<button type="submit">Soumettre</button>`;
+            }
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            displayQuestion(currentQuestion);
+        }
+    </script>
+</head>
+<body>
+    <h1>Question {{ currentQuestion }}</h1>
+    <div id="question"></div>
+    <form id="form" method="POST">
+        <!-- Les réponses seront ajoutées dynamiquement ici -->
+    </form>
+    <div id="btn"></div>
+<footer>
+    <div class="line"><a href="#">©  2024-<script>document.write(new Date().getFullYear());</script> Igly par Ayouba Anrezki</h2></a></div>
+</footer>    
+</body>
+</html>
