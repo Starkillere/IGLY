@@ -10,7 +10,7 @@
 
 # Importation
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, url_for, redirect
 import pandas as pd
 from . import modele_naif_knn
 from datetime import timedelta
@@ -35,4 +35,4 @@ def home():
         
         return render_template('resultat.html', situation_predite=situation_predite)
     
-    return render_template('questionnaire.html', questions=df_questions['Q'])
+    return render_template('questionnaire.html', questions=df_questions['Q'].tolist())

@@ -1,5 +1,5 @@
 # IGLY
-
+IGLY (Iel gonna let you) allows you to plan for a breakup or divorce before committing to a relationship 
 
 ## Original Dataset
 - Dr. Mustafa Kemal Yöntem, Nevşehir Hacı Bektaş Veli University, Faculty of Education, Department of Educational Sciences, muskemtem '@' hotmail.com
