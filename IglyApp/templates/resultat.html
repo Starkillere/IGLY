@@ -7,7 +7,8 @@
 </head>
 <body>
     <h1>Résultat de l'évaluation :</h1>
-    <p>La situation de l'utilisateur est : {{ situation_predite }}</p>
+    <p>La situation de l'utilisateur d'après le modele fréquentiste est  : {{ situation_predite_f }}</p>
+    <p>La situation de l'utilisateur d'aprsès le modele bayesien est : <br>MARIER : {{  situation_predite_b["MARIER"] }}<br>DIVORCER : {{  situation_predite_b["DIVORCER"] }}</p>
 <footer>
     <div class="line"><a href="#">©  2024-<script>document.write(new Date().getFullYear());</script> Igly par Ayouba Anrezki</h2></a></div>
 </footer> 
