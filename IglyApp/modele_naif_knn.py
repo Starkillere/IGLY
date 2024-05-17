@@ -84,8 +84,8 @@ class ModeleKNN:
         situation_predite = self.__knn_model.predict([nouvel_utilisateur_reponses])[0]
 
         if situation_predite == Situation.DIVORCER:
-            situation_predite = "DIVORCER"
+            situation_predite = "DIVORCE"
         else:
-            situation_predite =  "MARIER"
+            situation_predite =  "MARIAGE"
 
         return situation_predite

@@ -3,55 +3,199 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Questionnaire</title>
+    <link rel="icon" href="{{url_for('static', filename='images/favicon.ico')}}">
+    <title>IGLY</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            justify-content: center;
+            background-color: #314941;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: #87ceeb;
+        }
+
+        header h2 {
+            margin: 5px 0 0;
+            font-size: 1.2em;
+            color: #666;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #questionnaire-container {
+            text-align: center;
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            background-color: #fff;
+        }
+
+        #progress-container {
+            width: 100%;
+            background-color: #e0e0e0;
+            border-radius: 13px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        #progress-bar {
+            height: 10px;
+            width: 0;
+            background-color: #76c7c0;
+            border-radius: 13px;
+            transition: width 0.4s ease;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        footer a {
+            color: #87ceeb;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+    button {
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+
+    input[type="range"] {
+        -webkit-appearance: none;
+        width: 50%;
+        height: 5px;
+        background: #d3d3d3;
+        outline: none;
+        border-radius: 5px;
+        margin: 10px 0;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 25px;
+        height: 5px;
+        background: #007bff;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+
+    input[type="range"]::-moz-range-thumb {
+        width: 25px;
+        height: 25px;
+        background: #007bff;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+
+    #output {
+        display: block;
+        font-size: 14px;
+        color: #808080; 
+        margin-top: 5px;
+    }
+    </style>
 </head>
 <body>
-    <h1>Questionnaire</h1>
-    <div id="question"></div>
-    <form id="form" method="POST">
-        <div id="form-content"></div>
-        <div id="btn"></div>
-    </form>
+    <header>
+        <h1>IGLY (Iel gonna let you)</h1><br>
+        <h2>L'IA au service de votre petit coeur</h2>
+    </header>
+    <main>
+        <div id="questionnaire-container">
+            <h1>Questionnaire</h1>
+            <div id="progress-container">
+                <div id="progress-bar"></div>
+            </div>
+            <div id="question"></div>
+            <form id="form" method="POST">
+                <div id="form-content"></div>
+                <div id="output">
+                    <p>0 pour non / 4 pour  oui</p>
+                </div>
+                <div id="btn"></div>
+            </form>
+        </div>
+    </main>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             var currentQuestion = 1;
             var questions = {{ questions | tojson | safe }};
             var totalQuestions = questions.length;
-
+    
+            function updateProgressBar(questionNumber) {
+                
+                var logBase = Math.log(totalQuestions + 1);
+                var progress = (Math.log(questionNumber + 1) / logBase) * 100; 
+                $('#progress-bar').css('width', progress + '%');
+            }
+    
             function displayQuestion(questionNumber) {
                 $('#question').text(questions[questionNumber - 1]);
                 $('#form-content').html(`
-                    <label for="reponse_${questionNumber}">Réponse :</label>
-                    <select name="reponse_${questionNumber}" id="reponse_${questionNumber}">
-                        <option value="0">0</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                    </select>
+                    <label for="reponse_${questionNumber}">Réponse :</label><br>
+                    <input type="range" name="reponse_${questionNumber}" id="reponse_${questionNumber}" min="0" max="4" value="0" oninput="this.nextElementSibling.value = this.value">
+                    <output>0</output>
                 `);
-
+    
                 if (questionNumber < totalQuestions) {
                     $('#btn').html('<button type="button" onclick="nextQuestion()">Suivant</button>');
                 } else {
                     $('#btn').html('<button type="submit">Soumettre</button>');
                 }
+    
+                
+                updateProgressBar(questionNumber);
             }
-
+    
             window.nextQuestion = function() {
                 var reponse = $(`#reponse_${currentQuestion}`).val();
                 $('#form').append(`<input type="hidden" name="reponse_${currentQuestion}" value="${reponse}">`);
                 currentQuestion++;
                 displayQuestion(currentQuestion);
             }
-
+    
             displayQuestion(currentQuestion);
         });
     </script>
 <footer>
-    <div class="line"><a href="https://github.com/Starkillere/IGLY">©  2024-<script>document.write(new Date().getFullYear());</script> Igly par Ayouba Anrezki</h2></a></div>
+    <div class="line"><a href="https://github.com/Starkillere/IGLY" target="_blank">©  2024-<script>document.write(new Date().getFullYear());</script> Igly par Ayouba Anrezki</h2></a></div>
 </footer>  
 </body>
 </html>
