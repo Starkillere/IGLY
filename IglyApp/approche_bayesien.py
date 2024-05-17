@@ -81,10 +81,3 @@ class ModeleBayesien:
                 t_result["DIVORCER"] = resultat[k]*100
 
         return t_result
-    
-if __name__ == "__main__":
-    import random
-    ai =  ModeleBayesien()
-    rd =  [[random.randint(0, 4) for i in range(54)]]
-    print(rd)
-    print(ai.prediction(rd))
