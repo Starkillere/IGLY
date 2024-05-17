@@ -3,7 +3,7 @@
     modele : Naif_KNN
     langage : python3
     createur : AYOUBA Anrezki
-    initalisation : 14/05/2024 11h14 (en cous d'informatique au lycée clémenceau Nantes 44)
+    initalisation : 14/05/2024 11h14 (en cours d'informatique au lycée clémenceau Nantes 44)
     MAJ : 14/05/2024
     Dépots : https://github.com/Starkillere/IGLY
 """
@@ -72,13 +72,19 @@ class ModeleBayesien:
         probabilites = self.__g_model.predict_proba(nouvel_utilisateur_reponses)[0]
         classes =self.__g_model.classes_
         resultat = {classes[i]: round(probabilites[i],2) for i in range(len(classes))}
-        print(resultat)
         t_result = {}
 
         for k in resultat.keys():
             if k == Situation.MARIER:
-                t_result["DIVORCER"] = resultat[k]*100
-            else:
                 t_result["MARIER"] = resultat[k]*100
+            else:
+                t_result["DIVORCER"] = resultat[k]*100
 
         return t_result
+    
+if __name__ == "__main__":
+    import random
+    ai =  ModeleBayesien()
+    rd =  [[random.randint(0, 4) for i in range(54)]]
+    print(rd)
+    print(ai.prediction(rd))
