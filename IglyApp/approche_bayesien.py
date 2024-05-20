@@ -12,6 +12,7 @@ __all__ =  ["ModeleKNN"]
 
 # Importation
 
+import os
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import GaussianNB
@@ -25,8 +26,9 @@ def chargement_des_donnees() -> tuple:
 
         # Importation des données
 
-    df_questions = pd.read_csv('IglyApp/data/q_divorce.csv', delimiter=';', encoding='utf-8')
-    df_reponses = pd.read_csv('IglyApp/data/result_divorce.csv', delimiter=';', encoding='utf-8')
+    base_path = os.path.dirname(__file__)
+    df_questions = pd.read_csv(os.path.join(base_path, 'data/q_divorce.csv'), delimiter=';', encoding='utf-8')
+    df_reponses = pd.read_csv(os.path.join(base_path, 'data/result_divorce.csv'), delimiter=';', encoding='utf-8')
 
         # Renommer les colonnes du dataframe des réponses avec les entêtes des questions
 
