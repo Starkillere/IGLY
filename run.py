@@ -13,7 +13,7 @@
 
 import sys
 import subprocess
-
+"""
 # Chemin vers votre environnement virtuel
 venv_path = '/home/your_username/venv/bin/activate'
 
@@ -21,7 +21,7 @@ venv_path = '/home/your_username/venv/bin/activate'
 activate_this = venv_path
 with open(activate_this) as f:
     exec(f.read(), {'__file__': activate_this})
-
+"""
 
 from IglyApp import app
 
