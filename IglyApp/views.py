@@ -42,7 +42,8 @@ def home():
                 reponse = correcteur(reponse)
             reponses_utilisateur.append(reponse)
         
-        situation_predite = my_ai.prediction(reponses_utilisateur)
+        #situation_predite = my_ai.prediction(reponses_utilisateur)
+        situation_predite = my_bayes.clas_prediction([reponses_utilisateur])
         situation_predite2 = my_bayes.prediction([reponses_utilisateur])
         
         return render_template('resultat.html', situation_predite_f=situation_predite, situation_predite_b=situation_predite2)
