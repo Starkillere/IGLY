@@ -83,3 +83,14 @@ class ModeleBayesien:
                 t_result["DIVORCER"] = resultat[k]*100
 
         return t_result
+    
+    def clas_prediction(self, nouvel_utilisateur_reponses:list):
+        assert type(nouvel_utilisateur_reponses[0]) == list and [l for l in nouvel_utilisateur_reponses [0] if type(l) == int] == nouvel_utilisateur_reponses[0]
+        situation_predite = self.__g_model.predict(nouvel_utilisateur_reponses)[0]
+         
+        if situation_predite == Situation.DIVORCER:
+            situation_predite = "DIVORCE"
+        else:
+            situation_predite =  "MARIAGE"
+
+        return situation_predite
